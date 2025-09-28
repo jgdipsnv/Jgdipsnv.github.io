@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Safe Browser - Focus Shield</title>
     
-    <!-- PWA and iOS Home Screen Settings -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Safe Browser">
@@ -16,81 +15,137 @@
     <style>
         body { 
             font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
-            background-color: #f7fafc; /* Lighter gray background */
+            background-color: #f7fafc;
         }
-        .transition-all {
-            transition: all 0.2s ease-in-out;
-        }
+        #settings-modal { transition: opacity 0.3s ease-in-out; }
+        .modal-content { transition: transform 0.3s ease-in-out; }
     </style>
 </head>
 <body class="flex items-center justify-center min-h-screen">
 
     <div class="w-full max-w-4xl mx-auto p-4">
         
-        <!-- Header -->
-        <header class="flex items-center justify-center space-x-3 mb-6">
-            <div class="bg-blue-600 p-2 rounded-xl shadow-lg">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+        <header class="flex items-center justify-between mb-6">
+            <div class="flex items-center space-x-3">
+                <div class="bg-blue-600 p-2 rounded-xl shadow-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                </div>
+                <h1 class="text-2xl font-bold text-gray-800">Safe Browser</h1>
             </div>
-            <h1 class="text-2xl font-bold text-gray-800">Safe Browser</h1>
+            <button id="settings-btn" class="p-2 text-gray-500 hover:text-blue-600 hover:bg-gray-200 rounded-full transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+            </button>
         </header>
 
-        <!-- URL Input Form -->
         <form id="url-form" class="mb-4">
             <div class="relative flex items-center">
-                <input type="text" id="url-input" placeholder="Enter a website to check..." autocomplete="off" class="w-full pl-5 pr-10 py-4 text-base border border-gray-300 rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all">
-                <button type="button" id="clear-btn" class="absolute right-12 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 hidden transition-all">
-                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                </button>
-                <button type="submit" class="absolute right-2 top-1/2 -translate-y-1/2 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:shadow-lg transition-all">
+                <input type="text" id="url-input" placeholder="Enter a safe website to visit..." autocomplete="off" class="w-full pl-5 pr-24 py-4 text-base border border-gray-300 rounded-xl shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all">
+                <button type="submit" class="absolute right-2 top-1/2 -translate-y-1/2 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-all">
                     Go
                 </button>
             </div>
         </form>
 
-        <!-- Main Content Area -->
         <main class="bg-white border border-gray-200 rounded-xl shadow-inner p-6 min-h-[300px] flex items-center justify-center">
             <div id="status-container" class="w-full">
-                 <!-- Welcome View -->
                  <div id="welcome-view" class="flex flex-col items-center text-center">
                     <svg xmlns="http://www.w3.org/2000/svg" class="text-blue-500 mb-5 w-16 h-16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
                     <h2 class="text-2xl font-bold text-gray-800">Focus Shield</h2>
-                    <p class="mt-2 text-gray-600 max-w-md">Enter a URL to check it. If safe, you'll be redirected. Blocked sites will be stopped here.</p>
-                    <p class="mt-4 text-xs text-gray-500 max-w-lg">To return to this screen after visiting a site, just use your browser's back button.</p>
+                    <p class="mt-2 text-gray-600 max-w-md">Enter a URL to check it. Safe sites will open. Blocked sites will be stopped here.</p>
+                     <p class="mt-4 text-xs text-gray-500 max-w-lg">
+                        <strong>Note on "Privacy Risk" warnings:</strong> Those messages come from your device's main browser, not this app. They appear when you try to visit insecure (non-https) sites. This app's goal is to prevent you from reaching harmful sites in the first place.
+                    </p>
                  </div>
-                 <!-- Blocked View -->
                  <div id="blocked-view" class="hidden flex-col items-center text-center">
                      <svg xmlns="http://www.w3.org/2000/svg" class="text-red-500 mb-5 w-16 h-16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
                      <h2 class="text-2xl font-bold text-red-700">Content Blocked</h2>
                      <p class="mt-2 text-gray-600">This URL is on the blocklist to help you stay focused.</p>
                  </div>
-                 <!-- Checking View -->
                  <div id="checking-view" class="hidden flex-col items-center text-center">
-                    <svg class="animate-spin text-blue-500 mb-5 w-16 h-16" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
+                    <svg class="animate-spin text-blue-500 mb-5 w-16 h-16" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
                     <h2 class="text-2xl font-bold text-gray-800">Checking...</h2>
-                    <p class="mt-2 text-gray-600">Verifying the URL is safe.</p>
                  </div>
             </div>
         </main>
     </div>
 
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 z-50 opacity-0 pointer-events-none">
+        <div class="modal-content bg-white w-full max-w-lg rounded-xl shadow-2xl p-6 transform scale-95">
+            <!-- Password Setup -->
+            <div id="password-setup-view">
+                <h3 class="text-xl font-bold mb-2">Create a Password</h3>
+                <p class="text-sm text-gray-600 mb-4">Set a password to protect your settings and blocklist. Choose something you'll remember, or have someone else set it for you.</p>
+                <input type="password" id="new-password-input" class="w-full p-2 border rounded-md mb-4" placeholder="Enter new password">
+                <div class="flex justify-end space-x-3">
+                    <button id="cancel-setup-btn" class="px-4 py-2 bg-gray-200 rounded-md">Cancel</button>
+                    <button id="save-password-btn" class="px-4 py-2 bg-blue-600 text-white rounded-md">Save Password</button>
+                </div>
+            </div>
+            <!-- Password Login -->
+            <div id="password-login-view" class="hidden">
+                <h3 class="text-xl font-bold mb-4">Enter Password</h3>
+                <input type="password" id="password-input" class="w-full p-2 border rounded-md mb-4" placeholder="Password">
+                <p id="password-error" class="text-red-500 text-sm mb-3 hidden">Incorrect password.</p>
+                <div class="flex justify-end space-x-3">
+                    <button id="cancel-login-btn" class="px-4 py-2 bg-gray-200 rounded-md">Cancel</button>
+                    <button id="login-btn" class="px-4 py-2 bg-blue-600 text-white rounded-md">Unlock</button>
+                </div>
+            </div>
+            <!-- Main Settings -->
+            <div id="main-settings-view" class="hidden">
+                <h3 class="text-xl font-bold mb-4">Settings</h3>
+                <div class="space-y-4">
+                    <div>
+                        <label class="font-semibold text-gray-700">Custom Blocklist (one per line)</label>
+                        <textarea id="custom-blocklist" class="w-full h-24 p-2 border rounded-md mt-1" placeholder="example.com&#10;another-bad-word"></textarea>
+                    </div>
+                    <div>
+                        <label class="font-semibold text-gray-700">Whitelist (one domain per line)</label>
+                        <textarea id="whitelist" class="w-full h-24 p-2 border rounded-md mt-1" placeholder="trusted-site.org"></textarea>
+                    </div>
+                </div>
+                <div class="flex justify-between items-center mt-6">
+                    <button id="reset-password-btn" class="text-sm text-red-600 hover:underline">Reset Password</button>
+                    <div>
+                        <button id="cancel-settings-btn" class="px-4 py-2 bg-gray-200 rounded-md mr-3">Cancel</button>
+                        <button id="save-settings-btn" class="px-4 py-2 bg-blue-600 text-white rounded-md">Save Settings</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
-        // --- Element References ---
+        // --- Element Refs ---
         const urlForm = document.getElementById('url-form');
         const urlInput = document.getElementById('url-input');
-        const clearBtn = document.getElementById('clear-btn');
+        const settingsBtn = document.getElementById('settings-btn');
+        const settingsModal = document.getElementById('settings-modal');
+        const modalContent = document.querySelector('.modal-content');
+
         const views = {
             welcome: document.getElementById('welcome-view'),
             blocked: document.getElementById('blocked-view'),
-            checking: document.getElementById('checking-view')
+            checking: document.getElementById('checking-view'),
+            passwordSetup: document.getElementById('password-setup-view'),
+            passwordLogin: document.getElementById('password-login-view'),
+            mainSettings: document.getElementById('main-settings-view')
         };
+        
+        // --- Settings Elements ---
+        const newPasswordInput = document.getElementById('new-password-input');
+        const savePasswordBtn = document.getElementById('save-password-btn');
+        const passwordInput = document.getElementById('password-input');
+        const loginBtn = document.getElementById('login-btn');
+        const passwordError = document.getElementById('password-error');
+        const customBlocklistEl = document.getElementById('custom-blocklist');
+        const whitelistEl = document.getElementById('whitelist');
+        const saveSettingsBtn = document.getElementById('save-settings-btn');
+        const resetPasswordBtn = document.getElementById('reset-password-btn');
 
-        // --- Blocklist ---
-        // A comprehensive list of keywords to identify and block adult content.
-        const blockedKeywords = [
+        // --- Default Blocklist ---
+        const defaultBlockedKeywords = [
             'porn', 'sex', 'xxx', 'adult', 'erotic', 'nude', 'naked', 'hentai',
             'lust', 'pleasure', 'fuck', 'pussy', 'dick', 'tits', 'boobs', 'milf',
             'babe', 'horny', 'slut', 'whore', 'cum', 'climax', 'orgasm', 'fetish',
@@ -98,118 +153,166 @@
             'xnxx', 'redtube', 'youporn', 'livejasmin', 'chaturbate', 'onlyfans'
         ];
 
-        // --- Event Listeners ---
-
-        // Handle form submission
-        urlForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const rawUrl = urlInput.value.trim();
-            if (rawUrl) {
-                checkAndNavigate(rawUrl);
-            }
-        });
-
-        // Show or hide the 'clear' button based on input
-        urlInput.addEventListener('input', () => {
-            if (urlInput.value.length > 0) {
-                clearBtn.classList.remove('hidden');
-            } else {
-                clearBtn.classList.add('hidden');
-            }
-        });
-
-        // Handle clicks on the 'clear' button
-        clearBtn.addEventListener('click', () => {
-            urlInput.value = '';
-            clearBtn.classList.add('hidden');
-            urlInput.focus();
-            // Show welcome view if the user clears the input
-            switchView('welcome');
-        });
+        let settings = {
+            passwordHash: null,
+            customBlocklist: [],
+            whitelist: []
+        };
 
         // --- Core Functions ---
-
-        /**
-         * Switches the visible view in the main content area.
-         * @param {string} viewName - The name of the view to show ('welcome', 'blocked', 'checking').
-         */
-        function switchView(viewName) {
-            // Hide all views
-            for (const key in views) {
-                views[key].classList.add('hidden');
+        
+        function loadSettings() {
+            const storedSettings = localStorage.getItem('safeBrowserSettings');
+            if (storedSettings) {
+                settings = JSON.parse(storedSettings);
             }
-            // Show the requested view
+        }
+
+        function saveSettings() {
+            localStorage.setItem('safeBrowserSettings', JSON.stringify(settings));
+        }
+
+        function switchView(viewName, container) {
+            const parent = container || document;
+            Array.from(parent.children).forEach(child => child.classList.add('hidden'));
             if (views[viewName]) {
                 views[viewName].classList.remove('hidden');
             }
         }
-        
-        /**
-         * Checks if a URL is safe and either redirects or shows a blocked message.
-         * @param {string} url - The URL to check.
-         */
-        function checkAndNavigate(url) {
-            // Show immediate feedback to the user
-            switchView('checking');
 
-            // Use a short delay to ensure the "Checking..." message is visible before navigation
+        function openModal() {
+            settingsModal.classList.remove('opacity-0', 'pointer-events-none');
+            modalContent.classList.remove('scale-95');
+            passwordError.classList.add('hidden');
+            if (settings.passwordHash) {
+                switchView('passwordLogin', settingsModal.querySelector('.modal-content'));
+                passwordInput.value = '';
+                passwordInput.focus();
+            } else {
+                switchView('passwordSetup', settingsModal.querySelector('.modal-content'));
+                newPasswordInput.value = '';
+                newPasswordInput.focus();
+            }
+        }
+
+        function closeModal() {
+            settingsModal.classList.add('opacity-0', 'pointer-events-none');
+            modalContent.classList.add('scale-95');
+        }
+
+        async function hashPassword(password) {
+            const encoder = new TextEncoder();
+            const data = encoder.encode(password);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        function checkAndNavigate(url) {
+            switchView('checking', document.getElementById('status-container'));
             setTimeout(() => {
                 const lowerCaseUrl = url.toLowerCase();
-                let isBlocked = false;
+                const combinedBlocklist = [...defaultBlockedKeywords, ...settings.customBlocklist];
+                
+                try {
+                    const urlObject = new URL(formatUrl(url));
+                    const hostname = urlObject.hostname.toLowerCase();
 
-                // Check if the URL contains any blocked keyword
-                for (const keyword of blockedKeywords) {
-                    if (lowerCaseUrl.includes(keyword)) {
-                        isBlocked = true;
-                        break;
-                    }
-                }
-
-                if (isBlocked) {
-                    // Show the blocked message
-                    switchView('blocked');
-                } else {
-                    // If safe, format the URL and redirect the browser
-                    let formattedUrl = formatUrl(url);
-
-                    try {
-                        // **NEW**: Enforce Safe Search on popular search engines
-                        const urlObject = new URL(formattedUrl);
-                        const hostname = urlObject.hostname.toLowerCase();
-
-                        if (hostname.includes('google.')) {
-                            urlObject.searchParams.set('safe', 'active');
-                            formattedUrl = urlObject.toString();
-                        } else if (hostname.includes('bing.')) {
-                            urlObject.searchParams.set('adlt', 'strict');
-                            formattedUrl = urlObject.toString();
-                        } else if (hostname.includes('duckduckgo.')) {
-                            urlObject.searchParams.set('kp', '1'); // 1 = strict
-                            formattedUrl = urlObject.toString();
-                        }
-                    } catch (error) {
-                        console.error("Invalid URL:", error);
-                        // If URL is invalid, we can just show the blocked view as a fallback.
-                        switchView('blocked');
+                    // 1. Check Whitelist first
+                    const isWhitelisted = settings.whitelist.some(domain => hostname.includes(domain.toLowerCase()));
+                    if (isWhitelisted) {
+                        window.location.href = urlObject.toString();
                         return;
                     }
 
+                    // 2. Check Blocklist
+                    const isBlocked = combinedBlocklist.some(keyword => lowerCaseUrl.includes(keyword.toLowerCase()));
+                    if (isBlocked) {
+                        switchView('blocked', document.getElementById('status-container'));
+                        return;
+                    }
+
+                    // 3. Enforce Safe Search and Redirect
+                    let formattedUrl = urlObject.toString();
+                    if (hostname.includes('google.')) {
+                        urlObject.searchParams.set('safe', 'active');
+                        formattedUrl = urlObject.toString();
+                    } else if (hostname.includes('bing.')) {
+                        urlObject.searchParams.set('adlt', 'strict');
+                        formattedUrl = urlObject.toString();
+                    } else if (hostname.includes('duckduckgo.')) {
+                        urlObject.searchParams.set('kp', '1');
+                        formattedUrl = urlObject.toString();
+                    }
                     window.location.href = formattedUrl;
+
+                } catch (error) {
+                    console.error("Invalid URL:", error);
+                    switchView('blocked', document.getElementById('status-container'));
                 }
-            }, 300); // 300ms delay
+            }, 300);
         }
 
-        /**
-         * Ensures a URL starts with http:// or https://.
-         * @param {string} url - The URL to format.
-         * @returns {string} The formatted URL.
-         */
         function formatUrl(url) {
             if (!/^(https?:\/\/)/i.test(url)) {
                 return 'https://' + url;
             }
             return url;
         }
+
+        // --- Event Listeners ---
+        document.addEventListener('DOMContentLoaded', loadSettings);
+        urlForm.addEventListener('submit', e => {
+            e.preventDefault();
+            const rawUrl = urlInput.value.trim();
+            if (rawUrl) checkAndNavigate(rawUrl);
+        });
+
+        settingsBtn.addEventListener('click', openModal);
+        
+        // Modal buttons
+        [document.getElementById('cancel-setup-btn'), document.getElementById('cancel-login-btn'), document.getElementById('cancel-settings-btn')].forEach(btn => btn.addEventListener('click', closeModal));
+
+        savePasswordBtn.addEventListener('click', async () => {
+            const newPassword = newPasswordInput.value;
+            if (newPassword) {
+                settings.passwordHash = await hashPassword(newPassword);
+                saveSettings();
+                customBlocklistEl.value = settings.customBlocklist.join('\n');
+                whitelistEl.value = settings.whitelist.join('\n');
+                switchView('mainSettings', settingsModal.querySelector('.modal-content'));
+            }
+        });
+
+        loginBtn.addEventListener('click', async () => {
+            const enteredPassword = passwordInput.value;
+            const enteredHash = await hashPassword(enteredPassword);
+            if (enteredHash === settings.passwordHash) {
+                passwordError.classList.add('hidden');
+                customBlocklistEl.value = settings.customBlocklist.join('\n');
+                whitelistEl.value = settings.whitelist.join('\n');
+                switchView('mainSettings', settingsModal.querySelector('.modal-content'));
+            } else {
+                passwordError.classList.remove('hidden');
+            }
+        });
+
+        saveSettingsBtn.addEventListener('click', () => {
+            settings.customBlocklist = customBlocklistEl.value.split('\n').map(s => s.trim()).filter(Boolean);
+            settings.whitelist = whitelistEl.value.split('\n').map(s => s.trim()).filter(Boolean);
+            saveSettings();
+            closeModal();
+        });
+
+        resetPasswordBtn.addEventListener('click', () => {
+            if (confirm('Are you sure you want to reset your password and all custom settings? This action cannot be undone.')) {
+                settings.passwordHash = null;
+                settings.customBlocklist = [];
+                settings.whitelist = [];
+                saveSettings();
+                switchView('passwordSetup', settingsModal.querySelector('.modal-content'));
+            }
+        });
     </script>
 </body>
 </html>
