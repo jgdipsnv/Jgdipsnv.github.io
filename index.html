@@ -170,7 +170,30 @@
                     switchView('blocked');
                 } else {
                     // If safe, format the URL and redirect the browser
-                    const formattedUrl = formatUrl(url);
+                    let formattedUrl = formatUrl(url);
+
+                    try {
+                        // **NEW**: Enforce Safe Search on popular search engines
+                        const urlObject = new URL(formattedUrl);
+                        const hostname = urlObject.hostname.toLowerCase();
+
+                        if (hostname.includes('google.')) {
+                            urlObject.searchParams.set('safe', 'active');
+                            formattedUrl = urlObject.toString();
+                        } else if (hostname.includes('bing.')) {
+                            urlObject.searchParams.set('adlt', 'strict');
+                            formattedUrl = urlObject.toString();
+                        } else if (hostname.includes('duckduckgo.')) {
+                            urlObject.searchParams.set('kp', '1'); // 1 = strict
+                            formattedUrl = urlObject.toString();
+                        }
+                    } catch (error) {
+                        console.error("Invalid URL:", error);
+                        // If URL is invalid, we can just show the blocked view as a fallback.
+                        switchView('blocked');
+                        return;
+                    }
+
                     window.location.href = formattedUrl;
                 }
             }, 300); // 300ms delay
